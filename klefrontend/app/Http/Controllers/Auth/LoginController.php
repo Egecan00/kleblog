@@ -43,13 +43,14 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        session()->forget('api_token');
-    
-        // Çıkış yaptıktan sonra yönlendirme
-        return redirect('http://localhost:8001/index');
+        $token = session('api_token'); 
+        $user = Http::timeout(1000)->withToken(session('api_token'))->post("http://nginx_api/api/logout");
+        if($user->successful())
+        {
+            session()->forget('api_token');
+            return redirect('http://localhost:8001/index');
+        }
+   
     }
     
 

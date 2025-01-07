@@ -26,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function (){ //bu grubun içindeki tüm
     // Route::delete('/product/{product}', [ProductController::class, 'destroy']);
     Route::delete('/product/{id}', [ProductController::class, 'destroy']);
     Route::get('/product/{id}', [ProductController::class, 'show']);
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+    // Route::post('/logout', [LoginController::class, 'logout']);
+
     
  });
 
@@ -45,7 +48,7 @@ Route::post('register', [RegisterController::class, 'register']);
 
 // Giriş sayfası için rota
 Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+// Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 
 

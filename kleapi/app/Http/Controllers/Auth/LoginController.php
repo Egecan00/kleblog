@@ -57,12 +57,21 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-    
-        // Çıkış yaptıktan sonra yönlendirme
-        return redirect('http://localhost:8001/index');
+        $token = session('api_token'); 
+
+        $user = User::where('id',$request->user()->id)->first();
+        if($user)
+        {
+            $user->tokens()->delete();
+            return response()->json([
+                'message' => 'Başarıyla Çıkış Yapıldı.',
+            ],200);
+        }
+        else{
+            return response()->json([
+                'message' => 'Kullanıcı Bulunamadı.',
+            ],401);
+        }
     }
     
 
